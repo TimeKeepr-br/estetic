@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Estética de Motos Premium</title>
+    <style>
+        :root {
+            --bg-main: #0a0a0c;
+            --bg-card: #18181c;
+            --primary: #d4af37;
+            --primary-glow: rgba(212, 175, 55, 0.15);
+            --text-light: #ffffff;
+            --text-muted: #8a8a93;
+            --border: #2a2a30;
+            --success: #25D366; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            padding-bottom: 100px;
+        }
+
+        header {
+            background: linear-gradient(180deg, #18181c 0%, #0a0a0c 100%);
+            padding: 30px 20px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .tag-premium {
+            display: inline-block;
+            background: var(--primary-glow);
+            color: var(--primary);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 8px;
+            font-weight: 600;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .step-group {
+            margin-bottom: 35px;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: #000;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: 0.3s;
+            color-scheme: dark;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .selectable-card {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .selectable-card.selected {
+            border-color: var(--primary);
+            background: var(--primary-glow);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-title {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .card-product {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .card-product::before {
+            content: '✨';
+            font-size: 0.7rem;
+        }
+
+        .card-price {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 2px;
+        }
+
+        .check-indicator {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .selectable-card.selected .check-indicator {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .check-indicator::after {
+            content: "✓";
+            color: #000;
+            font-size: 12px;
+            font-weight: bold;
+            opacity: 0;
+        }
+
+        .selectable-card.selected .check-indicator::after {
+            opacity: 1;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .time-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 12px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .time-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .time-btn.selected {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            font-weight: bold;
+        }
+
+        .empty-times {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            padding: 15px 0;
+        }
+
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(24, 24, 28, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .bottom-bar .total-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bottom-bar .total-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .bottom-bar .total-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .btn-agendar {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: 0.2s;
+        }
+
+        .btn-agendar:active {
+            transform: scale(0.96);
+        }
+
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #ef4444;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 100px;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 120px;
+        }
+
+        @media (min-width: 480px) {
+            .card-grid { grid-template-columns: 1fr 1fr; }
+            .time-grid { grid-template-columns: repeat(4, 1fr); }
+            .bottom-bar { justify-content: center; gap: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Detailing Studio</h1>
+        <p class="subtitle">Santa Luzia do Paruá</p>
+        <span class="tag-premium">Tratamento Padrão Vonixx</span>
+    </header>
+
+    <div class="container">
+        
+        <div class="step-group">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <h2>Seus Dados</h2>
+            </div>
+            <div class="input-group">
+                <label>Nome Completo</label>
+                <input type="text" id="cliente" placeholder="Como podemos te chamar?">
+            </div>
+            <div class="input-group">
+                <label>Modelo da Moto</label>
+                <input type="text" id="moto" placeholder="Ex: Pop 110i, Titan...">
+            </div>
+        </div>
+
+        <div class="step-group">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <h2>Estado da Moto</h2>
+            </div>
+            <div class="card-grid" id="grid-niveis">
+                <!-- Javascript irá renderizar -->
+            </div>
+        </div>
+
+        <div class="step-group">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <h2>Serviços Extras</h2>
+            </div>
+            <div class="card-grid" id="grid-extras">
+                <!-- Javascript irá renderizar -->
+            </div>
+        </div>
+
+        <div class="step-group">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <h2>Quando?</h2>
+            </div>
+            <div class="input-group">
+                <label>Data</label>
+                <input type="date" id="data" onchange="aoMudarData()">
+            </div>
+            <div class="input-group" style="margin-top: 20px;">
+                <label>Horários Livres</label>
+                <div class="time-grid" id="grid-horarios">
+                    <div class="empty-times">Selecione uma data para ver os horários.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-bar">
+        <div class="total-info">
+            <span class="total-label">Total do serviço</span>
+            <span class="total-value" id="valor-total">R$ 0,00</span>
+        </div>
+        <button class="btn-agendar" onclick="finalizarAgendamento()">
+            Agendar 
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        </button>
+    </div>
+
+    <div id="toast">Preencha todos os campos!</div>
+
+<script>
+    // SEU NÚMERO DE WHATSAPP DEFINIDO AQUI
+    const NUMERO_WHATSAPP = "5598988669986"; 
+
+    // Lavagem e Produtos
+    const niveisSujeira = [
+        { id: 'n1', nome: 'Pouco Suja', produto: 'V-Mol e V-Floc (Vonixx)', preco: 15 },
+        { id: 'n2', nome: 'Meio Suja', produto: 'V-Mol e V-Floc (Vonixx)', preco: 20 },
+        { id: 'n3', nome: 'Muito Suja', produto: 'V-Mol e V-Floc (Vonixx)', preco: 30 }
+    ];
+
+    // Serviços Extras e Produtos
+    const servicosExtras = [
+        { id: 'e1', nome: 'Revitalização de plásticos', produto: 'Restaurax (Vonixx)', preco: 10 },
+        { id: 'e2', nome: 'Restauração de escapamento', produto: 'Spray de alta temperatura', preco: 20 },
+        { id: 'e3', nome: 'Pretinho', produto: 'Shiny (Vonixx)', preco: 5 },
+        { id: 'e4', nome: 'Cera', produto: 'Blend (Vonixx)', preco: 5 },
+        { id: 'e5', nome: 'Remoção de ferrugem (parafusos)', produto: 'Izer (Vonixx)', preco: 10 },
+        { id: 'e6', nome: 'Polimento calhas de alumínio', produto: null, preco: 10 }
+    ];
+
+    // Regras de Horários
+    const horariosSemana = ['09:00', '09:30', '10:00', '10:30', '11:00', '17:00'];
+    const horariosFimDeSemana = ['16:00', '16:30', '17:00', '17:30', '18:00'];
+
+    let nivelSelecionado = null;
+    let extrasSelecionados = new Set();
+    let horarioSelecionado = null;
+
+    function inicializar() {
+        renderizarNiveis();
+        renderizarExtras();
+        configurarDataMinima();
+    }
+
+    function renderizarNiveis() {
+        const container = document.getElementById('grid-niveis');
+        niveisSujeira.forEach(nivel => {
+            const div = document.createElement('div');
+            div.className = 'selectable-card';
+            div.onclick = () => selecionarNivel(nivel.id, div);
+            
+            const produtoHTML = nivel.produto ? `<span class="card-product">${nivel.produto}</span>` : '';
+            
+            div.innerHTML = `
+                <div class="card-info">
+                    <span class="card-title">${nivel.nome}</span>
+                    ${produtoHTML}
+                    <span class="card-price">R$ ${nivel.preco.toFixed(2).replace('.', ',')}</span>
+                </div>
+                <div class="check-indicator"></div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function renderizarExtras() {
+        const container = document.getElementById('grid-extras');
+        servicosExtras.forEach(extra => {
+            const div = document.createElement('div');
+            div.className = 'selectable-card';
+            div.onclick = () => alternarExtra(extra.id, div);
+            
+            const produtoHTML = extra.produto ? `<span class="card-product">${extra.produto}</span>` : '';
+
+            div.innerHTML = `
+                <div class="card-info">
+                    <span class="card-title">${extra.nome}</span>
+                    ${produtoHTML}
+                    <span class="card-price">+ R$ ${extra.preco.toFixed(2).replace('.', ',')}</span>
+                </div>
+                <div class="check-indicator" style="border-radius: 6px;"></div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function configurarDataMinima() {
+        const inputData = document.getElementById('data');
+        const hoje = new Date().toISOString().split('T')[0];
+        inputData.min = hoje;
+    }
+
+    function aoMudarData() {
+        const dataInput = document.getElementById('data').value;
+        const container = document.getElementById('grid-horarios');
+        
+        if(!dataInput) {
+             container.innerHTML = '<div class="empty-times">Selecione uma data para ver os horários.</div>';
+             return;
+        }
+
+        const [ano, mes, dia] = dataInput.split('-');
+        const dataSelecionada = new Date(ano, mes - 1, dia);
+        const diaDaSemana = dataSelecionada.getDay(); 
+
+        let horariosDoDia = [];
+        if (diaDaSemana === 0 || diaDaSemana === 6) {
+            horariosDoDia = horariosFimDeSemana;
+        } else {
+            horariosDoDia = horariosSemana;
+        }
+
+        container.innerHTML = ''; 
+        horarioSelecionado = null; 
+
+        horariosDoDia.forEach(hora => {
+            const btn = document.createElement('button');
+            btn.className = 'time-btn';
+            btn.textContent = hora;
+            btn.onclick = () => selecionarHorario(hora, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function selecionarNivel(id, elemento) {
+        document.querySelectorAll('#grid-niveis .selectable-card').forEach(el => el.classList.remove('selected'));
+        elemento.classList.add('selected');
+        nivelSelecionado = niveisSujeira.find(n => n.id === id);
+        atualizarTotal();
+    }
+
+    function alternarExtra(id, elemento) {
+        elemento.classList.toggle('selected');
+        if (extrasSelecionados.has(id)) {
+            extrasSelecionados.delete(id);
+        } else {
+            extrasSelecionados.add(id);
+        }
+        atualizarTotal();
+    }
+
+    function selecionarHorario(hora, elemento) {
+        document.querySelectorAll('.time-btn').forEach(el => el.classList.remove('selected'));
+        elemento.classList.add('selected');
+        horarioSelecionado = hora;
+    }
+
+    function atualizarTotal() {
+        let total = 0;
+        if (nivelSelecionado) total += nivelSelecionado.preco;
+        
+        extrasSelecionados.forEach(id => {
+            const extra = servicosExtras.find(e => e.id === id);
+            if (extra) total += extra.preco;
+        });
+
+        document.getElementById('valor-total').textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function mostrarErro(mensagem) {
+        const toast = document.getElementById('toast');
+        toast.textContent = mensagem;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    function finalizarAgendamento() {
+        const cliente = document.getElementById('cliente').value.trim();
+        const moto = document.getElementById('moto').value.trim();
+        const data = document.getElementById('data').value;
+
+        if (!cliente) return mostrarErro("Por favor, informe seu nome.");
+        if (!moto) return mostrarErro("Qual o modelo da sua moto?");
+        if (!nivelSelecionado) return mostrarErro("Selecione o estado da moto.");
+        if (!data) return mostrarErro("Escolha uma data.");
+        if (!horarioSelecionado) return mostrarErro("Escolha um horário livre.");
+
+        const [ano, mes, dia] = data.split('-');
+        const dataBr = `${dia}/${mes}/${ano}`;
+
+        let total = nivelSelecionado.preco;
+        let nomesExtras = [];
+        extrasSelecionados.forEach(id => {
+            const ex = servicosExtras.find(e => e.id === id);
+            total += ex.preco;
+            nomesExtras.push(ex.nome);
+        });
+
+        let msg = `*NOVO AGENDAMENTO | ESTÉTICA DE MOTOS*%0A%0A`;
+        msg += `👤 *Cliente:* ${cliente}%0A`;
+        msg += `🏍️ *Moto:* ${moto}%0A`;
+        msg += `🚿 *Lavagem:* ${nivelSelecionado.nome} (R$ ${nivelSelecionado.preco.toFixed(2)})%0A`;
+        
+        if (nomesExtras.length > 0) {
+            msg += `✨ *Extras:* ${nomesExtras.join(', ')}%0A`;
+        }
+        
+        msg += `📅 *Data:* ${dataBr}%0A`;
+        msg += `⏰ *Horário:* ${horarioSelecionado}%0A%0A`;
+        msg += `💰 *TOTAL A PAGAR: R$ ${total.toFixed(2)}*`;
+
+        const link = `https://wa.me/${NUMERO_WHATSAPP}?text=${msg}`;
+        window.open(link, '_blank');
+    }
+
+    window.onload = inicializar;
+</script>
+</body>
+</html>
